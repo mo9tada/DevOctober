@@ -1,20 +1,15 @@
+import ProductScreen from './src/screens/ProductScreen';
+import React from 'react';
+import {View} from 'react-native'
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import ProductDetailsScreen from './src/screens/ProductDetailsScreen';
+import ShoppingCart from './src/screens/ShoppingCart';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>this is my first project in react native web dev GLSI3</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+ return (
+ <View style={{flex:1}}>
+ <ShoppingCart />
+ <StatusBar style="auto"/>
+ </View>
+ );
+};
