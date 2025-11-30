@@ -1,15 +1,21 @@
-import ProductScreen from './src/screens/ProductScreen';
+// App.js
 import React from 'react';
-import {View} from 'react-native'
 import { StatusBar } from 'expo-status-bar';
-import ProductDetailsScreen from './src/screens/ProductDetailsScreen';
-import ShoppingCart from './src/screens/ShoppingCart';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
+import Navigation from './src/navigation';
+import { CartProvider } from './src/contexts/CartContext';
+import store from './src/store';
 
 export default function App() {
- return (
- <View style={{flex:1}}>
- <ShoppingCart />
- <StatusBar style="auto"/>
- </View>
- );
-};
+  return (
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <CartProvider>
+          <Navigation />
+          <StatusBar style="auto" />
+        </CartProvider>
+      </SafeAreaProvider>
+    </Provider>
+  );
+}

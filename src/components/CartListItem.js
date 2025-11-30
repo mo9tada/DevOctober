@@ -1,43 +1,57 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+// src/components/CartListItem.js
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-const CartListItem = ({ cartItem }) => {
-const increaseQuantity = () => {};
-
-const decreaseQuantity = () => {};
-
-return (
-<View style={styles.container}>
-<Image source={{ uri: cartItem.product.image }} style={styles.image} />
-
-<View style={styles.contentContainer}>
-<Text style={styles.name}>{cartItem.product.name}</Text>
-<Text style={styles.size}>Size {cartItem.size}</Text>
-
-<View style={styles.footer}>
-<Feather onPress={decreaseQuantity} name="minus-circle" size={24}
-color="gray" />
-<Text style={styles.quantity}>{cartItem.quantity}</Text>
-<Feather onPress={increaseQuantity} name="plus-circle" size={24}
-color="gray" />
-<Text style={styles.itemTotal}>${cartItem.product.price *
-cartItem.quantity}</Text>
-</View>
-</View>
-</View>
-);
+const CartListItem = ({ item, onRemove }) => {
+  return (
+    <View style={styles.container}>
+      <Image source={{ uri: item.image }} style={styles.image} />
+      <View style={styles.content}>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.size}>Size: {item.size}</Text>
+        <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+      </View>
+      <Pressable onPress={onRemove} style={styles.removeButton}>
+        <Ionicons name="trash-outline" size={20} color="gray" />
+      </Pressable>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-
-container: { padding: 10, paddingHorizontal: 20, flexDirection: 'row' },
-contentContainer: { flex: 1, marginLeft: 10 },
-image: { width: '40%', aspectRatio: 1 },
-name: { fontWeight: '500', fontSize: 18 },
-size: { fontSize: 16, color: 'gray' },
-quantity: { marginHorizontal: 10, fontWeight: 'bold', color: 'gray' },
-footer: { marginTop: 'auto', flexDirection: 'row', alignItems: 'center' },
-itemTotal: { fontSize: 16, marginLeft: 'auto', fontWeight: '500' },
+  container: {
+    flexDirection: 'row',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f5f5f5',
+    alignItems: 'center',
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 5,
+  },
+  content: {
+    flex: 1,
+    marginLeft: 15,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: '500',
+    marginBottom: 5,
+  },
+  size: {
+    fontSize: 14,
+    color: 'gray',
+    marginBottom: 5,
+  },
+  price: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  removeButton: {
+    padding: 10,
+  },
 });
 
 export default CartListItem;
