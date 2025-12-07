@@ -4,10 +4,10 @@ import { useCart } from '../contexts/CartContext';
 import CartListItem from '../components/CartListItem';
 
 const ShoppingCart = () => {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
 
   const getTotal = () => {
-    return cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+    return cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0).toFixed(2);
   };
 
   return (
@@ -17,10 +17,12 @@ const ShoppingCart = () => {
         renderItem={({ item }) => (
           <CartListItem 
             item={item} 
-            onRemove={() => removeFromCart(item.id)} 
+            onRemove={() => removeFromCart(item.id, item.size)}
+            onIncrease={() => increaseQuantity(item.id, item.size)}
+            onDecrease={() => decreaseQuantity(item.id, item.size)}
           />
         )}
-        keyExtractor={(item, index) => `${item.id}-${index}`}
+        keyExtractor={(item) => `${item.id}-${item.size}`}
         ListFooterComponent={() => (
           <View style={styles.totalsContainer}>
             <View style={styles.row}>

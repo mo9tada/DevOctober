@@ -1,27 +1,26 @@
-import { StyleSheet, View, Image, FlatList, Pressable } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { StyleSheet, Image, FlatList, Pressable } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedProduct } from '../store/productsSlice';
 
-const ProductsScreen = () => {
-  const navigation = useNavigation();
+const ProductsScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const products = useSelector(state => state.products.products);
-
   return (
-    <FlatList
-      data={products}
-      renderItem={({ item }) => (
-        <Pressable 
-          onPress={() => navigation.navigate('Product Detail', { id: item.id })}
-          style={styles.itemContainer}
-        >
-          <Image source={{ uri: item.image }} style={styles.image} />
-        </Pressable>
-      )}
+    <FlatList data={products} renderItem={({item})=>
+    (<Pressable 
+      onPress={() => {
+        dispatch(setSelectedProduct(item.id));
+        navigation.navigate('Product Detail')}} style={styles.itemContainer}>
+        <Image source={{ uri: item.image }} style={styles.image} />
+      </Pressable>)
+  }
       numColumns={2}
+      key={2}
       keyExtractor={(item) => item.id}
     />
-  );
-};
+  )
+}
+  
 
 const styles = StyleSheet.create({
   itemContainer: {

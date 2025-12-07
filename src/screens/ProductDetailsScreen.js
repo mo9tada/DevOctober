@@ -10,7 +10,7 @@ import {
   useWindowDimensions,
   ActivityIndicator 
 } from 'react-native';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import { useLayoutEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useCart } from '../contexts/CartContext';
@@ -43,9 +43,16 @@ const ProductDetailsScreen = ({ navigation }) => {
   const { addToCart } = useCart();
   
   const productId = route.params?.id;
+  const selectedProduct = useSelector(state => state.products.selectedProduct);
   const products = useSelector(state => state.products.products);
 
   useEffect(() => {
+    if (selectedProduct) {
+      setProduct(selectedProduct);
+      setLoading(false);
+      return;
+    }
+
     if (!products || !Array.isArray(products)) {
       console.error('Products data is not loaded correctly');
       setLoading(false);
@@ -56,14 +63,14 @@ const ProductDetailsScreen = ({ navigation }) => {
     const foundProduct = products.find(p => p.id === String(productId));
     setProduct(foundProduct);
     setLoading(false);
-  }, [productId, products]);
+  }, [productId, products, selectedProduct]);
 
   const handleAddToCart = () => {
     if (!selectedSize) {
       alert('Please select a size');
       return;
     }
-    addToCart({ ...product, size: selectedSize });
+    addToCart(product, selectedSize);
     navigation.navigate('Cart');
   };
 
